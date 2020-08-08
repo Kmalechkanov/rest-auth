@@ -1,4 +1,4 @@
-const config = require("config")       
+const config = require("config")
 const db = require("../models")
 const User = db.user
 const Role = db.role
@@ -12,7 +12,7 @@ exports.signup = (req, res) => {
   const user = new User({
     username: req.body.username,
     email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
+    password: req.body.password ? bcrypt.hashSync(req.body.password, 8) : undefined
   })
 
   user.save((err, user) => {
@@ -79,10 +79,14 @@ exports.signin = (req, res) => {
         return res.status(404).send({ message: "User Not found." })
       }
 
-      var passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
-      )
+      var passwordIsValid = false
+
+      if (req.body.password) {
+        var passwordIsValid = bcrypt.compareSync(
+          req.body.password,
+          user.password
+        )
+      }
 
       if (!passwordIsValid) {
         return res.status(401).send({
