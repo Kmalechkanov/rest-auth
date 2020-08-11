@@ -113,3 +113,15 @@ exports.signin = (req, res) => {
       })
     })
 }
+
+exports.verify = (req, res) => {
+  User.findById(req.id).exec
+
+  res.status(200).send({
+    id: req.id,
+  })
+
+  if (!user) {
+    return res.status(404).send({ message: "User Not found." })
+  }
+}

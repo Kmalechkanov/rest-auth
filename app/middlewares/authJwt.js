@@ -14,12 +14,20 @@ verifyToken = (req, res, next) => {
   }
 
   jwt.verify(token, jwtSecret, (err, decoded) => {
+    req.id = decoded.id
+
     if (err) {
       return res.status(401).send({ message: 'Unauthorized!' })
     }
-    req.userId = decoded.id
-    next()
+
+    User.findById(decoded.id).exec((err, user) => {
+      if (err || user == null) {
+        return res.status(401).send({ message: 'Unauthorized!' })
+      }
+    })
   })
+
+  next()
 }
 
 isAdmin = (req, res, next) => {

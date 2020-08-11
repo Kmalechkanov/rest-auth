@@ -9,7 +9,9 @@ var corsOptions = {
 
 const app = express()
 
-app.use(cors(corsOptions))
+// TODO add corsOptions!
+app.use(cors())
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
