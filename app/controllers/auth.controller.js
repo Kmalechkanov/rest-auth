@@ -114,14 +114,16 @@ exports.signin = (req, res) => {
     })
 }
 
-exports.verify = (req, res) => {
-  User.findById(req.id).exec
+exports.verify = async (req, res) => {
+  await User.findById(req.id).exec((err, user) => {
+    if (!user) {
+      return res.status(401).send({ message: "Unauthorized!" })
+    }
 
-  res.status(200).send({
-    id: req.id,
+    res.status(200).send({
+      id: req.id,
+      username: user.username,
+      email: user.email,
+    })
   })
-
-  if (!user) {
-    return res.status(404).send({ message: "User Not found." })
-  }
 }
