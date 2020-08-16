@@ -39,7 +39,7 @@ exports.signup = (req, res) => {
               return
             }
 
-            res.send({ message: "User was registered successfully!" })
+            res.send({ id: user._id, message: "User was registered successfully!" })
           })
         }
       )
@@ -57,7 +57,7 @@ exports.signup = (req, res) => {
             return
           }
 
-          res.send({ message: "User was registered successfully!" })
+          res.send({ id: user._id, message: "User was registered successfully!" })
         })
       })
     }
